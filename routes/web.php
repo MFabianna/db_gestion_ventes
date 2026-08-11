@@ -41,5 +41,4 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('clients', AdminClientController::class);
     });
 });
-
 require __DIR__.'/auth.php';
