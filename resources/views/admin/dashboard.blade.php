@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Tableau de Bord 👑</h1>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Tableau de Bord </h1>
 
     <!-- Statistiques -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -16,7 +16,7 @@
                     <p class="text-2xl font-bold text-gray-800">{{ $totalVentesMois }}</p>
                 </div>
                 <div class="bg-blue-100 p-3 rounded-full">
-                    <span class="text-2xl">📊</span>
+                    <span class="text-2xl"></span>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     <p class="text-2xl font-bold text-green-600">{{ number_format($chiffreAffaires, 0, ',', ' ') }} Ar</p>
                 </div>
                 <div class="bg-green-100 p-3 rounded-full">
-                    <span class="text-2xl">💰</span>
+                    <span class="text-2xl"></span>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
                     <p class="text-2xl font-bold text-purple-600">{{ $totalClients }}</p>
                 </div>
                 <div class="bg-purple-100 p-3 rounded-full">
-                    <span class="text-2xl">👥</span>
+                    <span class="text-2xl"></span>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
                     <p class="text-2xl font-bold text-orange-600">{{ $totalProduits }}</p>
                 </div>
                 <div class="bg-orange-100 p-3 rounded-full">
-                    <span class="text-2xl">🧴</span>
+                    <span class="text-2xl"></span>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- Top Produits -->
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">🏆 Top 5 Produits</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-4"> Top 5 Produits</h2>
             <ul class="space-y-3">
                 @foreach($topProduits as $index => $produit)
                     <li class="flex items-center justify-between p-3 bg-gray-50 rounded">
@@ -82,7 +82,7 @@
 
         <!-- Clients Récents -->
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">👥 Clients Récents</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-4"> Clients Récents</h2>
             <ul class="space-y-3">
                 @foreach($clientsRecents as $client)
                     <li class="flex items-center justify-between p-3 bg-gray-50 rounded">
@@ -99,7 +99,7 @@
 
     <!-- Ventes Récentes -->
     <div class="bg-white rounded-lg shadow-md p-6 mt-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">📦 Ventes Récentes</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4"> Ventes Récentes</h2>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">

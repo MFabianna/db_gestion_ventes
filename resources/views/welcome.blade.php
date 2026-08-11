@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Hero Section -->
     <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg shadow-xl p-8 mb-8 text-white">
-        <h1 class="text-4xl font-bold mb-4">Bienvenue chez CROWN 👑</h1>
+        <h1 class="text-4xl font-bold mb-4">Bienvenue chez CROWN </h1>
         <p class="text-xl">Découvrez nos produits capillaires 100% naturels pour des cheveux sublimes</p>
     </div>
 
@@ -21,7 +21,7 @@
                     @if($produit->image)
                         <img src="{{ asset('images/produits/' . $produit->image) }}" alt="{{ $produit->nom }}" class="h-full w-full object-cover">
                     @else
-                        <span class="text-gray-400 text-6xl">🧴</span>
+                        <span class="text-gray-400 text-6xl"></span>
                     @endif
                 </div>
 

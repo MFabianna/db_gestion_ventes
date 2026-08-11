@@ -11,7 +11,7 @@
                 @if($produit->image)
                     <img src="{{ asset('images/produits/' . $produit->image) }}" alt="{{ $produit->nom }}" class="h-full w-full object-cover rounded-lg">
                 @else
-                    <span class="text-gray-400 text-9xl">🧴</span>
+                    <span class="text-gray-400 text-9xl"></span>
                 @endif
             </div>
 
@@ -52,7 +52,7 @@
 
                 <!-- Note moyenne -->
                 <div class="border-t pt-6">
-                    <h3 class="text-lg font-semibold mb-3">⭐ Note moyenne : {{ number_format($produit->note_moyenne, 1) }}/5</h3>
+                    <h3 class="text-lg font-semibold mb-3"> Note moyenne : {{ number_format($produit->note_moyenne, 1) }}/5</h3>
                     <p class="text-gray-500">{{ $produit->nombre_avis }} avis</p>
                 </div>
             </div>
@@ -61,7 +61,7 @@
 
     <!-- Avis Clients -->
     <div class="mt-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6">💬 Avis des clients</h2>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6"> Avis des clients</h2>
         
         @forelse($reviews as $review)
             <div class="bg-white rounded-lg shadow-md p-6 mb-4">

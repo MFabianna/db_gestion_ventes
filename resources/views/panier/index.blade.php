@@ -37,7 +37,7 @@
                                                 @if($item->produit->image)
                                                     <img src="{{ asset('images/produits/' . $item->produit->image) }}" alt="{{ $item->produit->nom }}" class="h-full w-full object-cover rounded">
                                                 @else
-                                                    <span class="text-2xl">🧴</span>
+                                                    <span class="text-2xl"></span>
                                                 @endif
                                             </div>
                                             <div>
@@ -60,7 +60,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900 text-sm" onclick="return confirm('Supprimer cet article ?')">
-                                                🗑️ Supprimer
+                                             Supprimer
                                             </button>
                                         </form>
                                     </td>
@@ -95,7 +95,7 @@
                     <form action="{{ route('commande.valider') }}" method="POST">
                         @csrf
                         <button type="submit" class="w-full bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition">
-                            ✅ Valider la commande
+                             Valider la commande
                         </button>
                     </form>
 

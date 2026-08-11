@@ -6,7 +6,7 @@
 <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="bg-white rounded-lg shadow-xl p-8">
         <div class="text-center border-b pb-6 mb-6">
-            <h1 class="text-3xl font-bold text-purple-600">👑 CROWN</h1>
+            <h1 class="text-3xl font-bold text-purple-600"> CROWN</h1>
             <p class="text-gray-500 mt-2">Reçu de commande</p>
             <p class="text-xl font-semibold text-gray-800 mt-4">Code : {{ $vente->code_vente }}</p>
             <p class="text-sm text-gray-500">Date : {{ $vente->date_vente->format('d/m/Y à H:i') }}</p>

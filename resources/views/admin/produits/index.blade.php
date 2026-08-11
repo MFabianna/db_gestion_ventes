@@ -2,7 +2,7 @@
 @section('title', 'Gestion des Ventes - Admin')
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">🧾 Historique des Ventes</h1>
+    <h1 class="text-3xl font-bold text-gray-800 mb-6"> Historique des Ventes</h1>
     <div class="bg-white rounded-lg shadow-md overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">

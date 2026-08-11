@@ -19,7 +19,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="{{ route('accueil') }}" class="text-2xl font-bold text-purple-600">
-                        👑 CROWN
+                         CROWN
                     </a>
                 </div>
 
@@ -32,7 +32,7 @@
                             </a>
                         @endif
                         <a href="{{ route('panier.voir') }}" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
-                            🛒 Panier
+                             Panier
                         </a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
