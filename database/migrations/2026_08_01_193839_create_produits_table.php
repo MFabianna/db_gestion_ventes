@@ -16,8 +16,8 @@ return new class extends Migration
         $table->foreignId('categorie_id')->nullable()->constrained()->onDelete('set null');
         $table->string('nom');
         $table->text('description');
-        $table->decimal('prix', 10, 2); // 10 chiffres au total, 2 après la virgule (ex: 15000.00)
-        $table->integer('quantite_stock')->default(0); // "quantité en stock" du PDF
+        $table->decimal('prix', 10, 2);
+        $table->integer('quantite_stock')->default(0);
         $table->string('image')->nullable();
         $table->timestamps();
     });

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-         Schema::create('ventes', function (Blueprint $table) {
+        Schema::create('ventes', function (Blueprint $table) {
         $table->id();
         $table->string('code_vente')->unique(); // Notre code personnalisé V-01-08-2026-001
         $table->foreignId('client_id')->constrained()->onDelete('cascade');

@@ -10,7 +10,8 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    { Schema::create('reviews', function (Blueprint $table) {
+    {
+         Schema::create('reviews', function (Blueprint $table) {
         $table->id();
         $table->foreignId('client_id')->constrained()->onDelete('cascade');
         $table->foreignId('produit_id')->constrained()->onDelete('cascade');
@@ -20,7 +21,7 @@ return new class extends Migration
         
         // Empêche un client de mettre 2 avis sur le même produit
         $table->unique(['client_id', 'produit_id']); 
-     });
+    });
     }
 
     /**
