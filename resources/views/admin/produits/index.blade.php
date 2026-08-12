@@ -91,9 +91,5 @@
             </tbody>
         </table>
     </div>
-
-    <div class="mt-4">
-        {{ $produits->links() }}
-    </div>
 </div>
 @endsection

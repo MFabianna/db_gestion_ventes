@@ -8,21 +8,30 @@ use Illuminate\Database\Eloquent\Model;
 class Produit extends Model
 {
     use HasFactory;
-     protected $fillable = [
-        'categorie_id',
+
+    // Les colonnes qu'on a le droit de remplir (mass assignment)
+    protected $fillable = [
         'nom',
         'description',
         'prix',
         'quantite_stock',
+        'categorie_id',
         'image',
     ];
 
-    //Un Produit appartient à une Catégorie
-    public function categorie() {
-        return $this->belongsTo(Categorie::class); 
+    // 1. Un Produit appartient à une Catégorie
+    public function categorie()
+    {
+        return $this->belongsTo(Categorie::class);
     }
 
-    // Un Produit est dans plusieurs Ventes (via la table vente_produits)
+    // 2. Relation avec les avis (reviews)
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    // 3. Un Produit est dans plusieurs Ventes (via la table vente_produits)
     public function ventes()
     {
         return $this->belongsToMany(Vente::class, 'vente_produits')

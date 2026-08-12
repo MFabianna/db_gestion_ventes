@@ -13,7 +13,7 @@
 </head>
 <body class="bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-gradient-to-r from-purple-600 to-pink-600 shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
@@ -40,6 +40,9 @@
                                 Déconnexion
                             </button>
                         </form>
+                        <a href="{{ url('/') }}" class="text-gray-700 hover:text-purple-600 font-bold px-3 py-2 rounded">
+                                Voir le site
+                        </a>
                     @else
                         <a href="{{ route('login') }}" class="text-gray-700 hover:text-purple-600 px-3 py-2 rounded-md text-sm font-medium">
                             Connexion

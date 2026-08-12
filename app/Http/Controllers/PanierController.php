@@ -44,7 +44,7 @@ class PanierController extends Controller
             ]);
         }
         
-        return redirect()->route('panier.voir')->with('success', 'Produit ajouté au panier ! 🛒');
+        return redirect()->route('panier.voir')->with('success', 'Produit ajouté au panier !');
     }
 
     // Supprimer un produit du panier
@@ -52,6 +52,6 @@ class PanierController extends Controller
     {
         $item->delete();
         
-        return redirect()->route('panier.voir')->with('success', 'Produit retiré du panier ! 🗑️');
+        return redirect()->route('panier.voir')->with('success', 'Produit retiré du panier !');
     }
 }

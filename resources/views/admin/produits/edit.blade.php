@@ -1,137 +1,66 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard Admin - CROWN')
-
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Tableau de Bord </h1>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Modifier le Produit </h1>
 
-    <!-- Statistiques -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <!-- Ventes du mois -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex items-center">
-                <div class="flex-1">
-                    <p class="text-gray-500 text-sm">Ventes ce mois</p>
-                    <p class="text-2xl font-bold text-gray-800">{{ $totalVentesMois }}</p>
-                </div>
-                <div class="bg-blue-100 p-3 rounded-full">
-                    <span class="text-2xl"></span>
-                </div>
+    <form action="{{ route('admin.produits.update', $produit->id) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
+        @csrf
+        @method('PUT') <!-- Très important pour la mise à jour -->
+
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2">Nom du produit</label>
+            <input type="text" name="nom" value="{{ old('nom', $produit->nom) }}" class="w-full px-3 py-2 border rounded-lg" required>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2">Description</label>
+            <textarea name="description" rows="3" class="w-full px-3 py-2 border rounded-lg" required>{{ old('description', $produit->description) }}</textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-4">
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Prix (Ar)</label>
+                <input type="number" name="prix" value="{{ old('prix', $produit->prix) }}" class="w-full px-3 py-2 border rounded-lg" required>
+            </div>
+            <div>
+                <label class="block text-gray-700 font-bold mb-2">Stock</label>
+                <input type="number" name="quantite_stock" value="{{ old('quantite_stock', $produit->quantite_stock) }}" class="w-full px-3 py-2 border rounded-lg" required>
             </div>
         </div>
 
-        <!-- Chiffre d'affaires -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex items-center">
-                <div class="flex-1">
-                    <p class="text-gray-500 text-sm">Chiffre d'affaires</p>
-                    <p class="text-2xl font-bold text-green-600">{{ number_format($chiffreAffaires, 0, ',', ' ') }} Ar</p>
-                </div>
-                <div class="bg-green-100 p-3 rounded-full">
-                    <span class="text-2xl"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Clients -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex items-center">
-                <div class="flex-1">
-                    <p class="text-gray-500 text-sm">Total Clients</p>
-                    <p class="text-2xl font-bold text-purple-600">{{ $totalClients }}</p>
-                </div>
-                <div class="bg-purple-100 p-3 rounded-full">
-                    <span class="text-2xl"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Total Produits -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <div class="flex items-center">
-                <div class="flex-1">
-                    <p class="text-gray-500 text-sm">Total Produits</p>
-                    <p class="text-2xl font-bold text-orange-600">{{ $totalProduits }}</p>
-                </div>
-                <div class="bg-orange-100 p-3 rounded-full">
-                    <span class="text-2xl"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Top Produits -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4"> Top 5 Produits</h2>
-            <ul class="space-y-3">
-                @foreach($topProduits as $index => $produit)
-                    <li class="flex items-center justify-between p-3 bg-gray-50 rounded">
-                        <div class="flex items-center">
-                            <span class="text-lg font-bold text-purple-600 mr-3">#{{ $index + 1 }}</span>
-                            <span class="text-gray-800">{{ $produit->nom }}</span>
-                        </div>
-                        <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-semibold">
-                            {{ $produit->total_vendu }} vendus
-                        </span>
-                    </li>
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2">Catégorie</label>
+            <select name="categorie_id" class="w-full px-3 py-2 border rounded-lg" required>
+                <option value="">-- Choisir une catégorie --</option>
+                @foreach($categories as $cat)
+                    <option value="{{ $cat->id }}" {{ old('categorie_id', $produit->categorie_id) == $cat->id ? 'selected' : '' }}>
+                        {{ $cat->nom }}
+                    </option>
                 @endforeach
-            </ul>
+            </select>
         </div>
 
-        <!-- Clients Récents -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-4"> Clients Récents</h2>
-            <ul class="space-y-3">
-                @foreach($clientsRecents as $client)
-                    <li class="flex items-center justify-between p-3 bg-gray-50 rounded">
-                        <div>
-                            <p class="font-semibold text-gray-800">{{ $client->prenom }} {{ $client->nom }}</p>
-                            <p class="text-sm text-gray-500">{{ $client->user->email }}</p>
-                        </div>
-                        <span class="text-xs text-gray-400">{{ $client->created_at->format('d/m') }}</span>
-                    </li>
-                @endforeach
-            </ul>
+        <div class="mb-6">
+            <label class="block text-gray-700 font-bold mb-2">Image actuelle</label>
+            @if($produit->image)
+                <img src="{{ asset('storage/' . $produit->image) }}" alt="{{ $produit->nom }}" class="w-32 h-32 object-cover rounded mb-2">
+            @else
+                <p class="text-gray-500 mb-2">Aucune image</p>
+            @endif
+            
+            <label class="block text-gray-700 font-bold mb-2">Changer l'image (optionnel)</label>
+            <input type="file" name="image" accept="image/*" class="w-full px-3 py-2 border rounded-lg">
         </div>
-    </div>
 
-    <!-- Ventes Récentes -->
-    <div class="bg-white rounded-lg shadow-md p-6 mt-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-4"> Ventes Récentes</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Montant</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($ventesRecentes as $vente)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $vente->code_vente }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vente->client->prenom }} {{ $vente->client->nom }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ number_format($vente->montant, 0, ',', ' ') }} Ar</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vente->date_vente->format('d/m/Y H:i') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                    {{ $vente->statut === 'payé' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                    {{ $vente->statut }}
-                                </span>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        <div class="flex gap-3">
+            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg">
+                Mettre à jour
+            </button>
+            <a href="{{ route('admin.produits.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg">
+                Annuler
+            </a>
         </div>
-        <div class="mt-4">
-            {{ $ventesRecentes->links() }}
-        </div>
-    </div>
+    </form>
 </div>
 @endsection
