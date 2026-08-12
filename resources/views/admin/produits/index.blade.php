@@ -1,40 +1,99 @@
 @extends('layouts.app')
-@section('title', 'Gestion des Ventes - Admin')
+
+@section('title', 'Gestion des Produits - CROWN Admin')
+
 @section('content')
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6"> Historique des Ventes</h1>
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Gestion des Produits </h1>
+        <a href="{{ route('admin.produits.create') }}" 
+           class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg shadow">
+            + Ajouter un produit
+        </a>
+    </div>
+
+    @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <table class="min-w-full">
+            <thead class="bg-purple-600 text-white">
                 <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Client</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Montant</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Statut</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th class="py-3 px-4 text-left">Image</th>
+                    <th class="py-3 px-4 text-left">Nom</th>
+                    <th class="py-3 px-4 text-left">Catégorie</th>
+                    <th class="py-3 px-4 text-left">Prix (Ar)</th>
+                    <th class="py-3 px-4 text-left">Stock</th>
+                    <th class="py-3 px-4 text-left">Actions</th>
                 </tr>
             </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @forelse($ventes as $vente)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $vente->code_vente }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vente->client->prenom }} {{ $vente->client->nom }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $vente->date_vente->format('d/m/Y H:i') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">{{ number_format($vente->montant, 0, ',', ' ') }} Ar</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $vente->statut === 'payé' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">{{ $vente->statut }}</span>
+            <tbody class="divide-y divide-gray-200">
+                @forelse($produits as $produit)
+                    <tr class="hover:bg-gray-50">
+                        <td class="py-3 px-4">
+                            @if($produit->image)
+                                <img src="{{ asset('storage/' . $produit->image) }}" 
+                                     alt="{{ $produit->nom }}" 
+                                     class="w-12 h-12 object-cover rounded">
+                            @else
+                                <div class="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-gray-400">
+                                    ?
+                                </div>
+                            @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                            <a href="{{ route('admin.ventes.show', $vente->id) }}" class="text-blue-600 hover:text-blue-900">👁️ Voir</a>
+                        <td class="py-3 px-4 font-medium">{{ $produit->nom }}</td>
+                        <td class="py-3 px-4">
+                            <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">
+                                {{ $produit->categorie->nom ?? 'Non classé' }}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">{{ number_format($produit->prix, 0, ',', ' ') }} Ar</td>
+                        <td class="py-3 px-4">
+                            @if($produit->quantite_stock > 10)
+                                <span class="text-green-600 font-bold">{{ $produit->quantite_stock }}</span>
+                            @elseif($produit->quantite_stock > 0)
+                                <span class="text-yellow-600 font-bold">{{ $produit->quantite_stock }}</span>
+                            @else
+                                <span class="text-red-600 font-bold">Rupture</span>
+                            @endif
+                        </td>
+                        <td class="py-3 px-4 flex gap-2">
+                            <a href="{{ route('admin.produits.edit', $produit->id) }}" 
+                               class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm">
+                                Modifier
+                            </a>
+                            <form action="{{ route('admin.produits.destroy', $produit->id) }}" 
+                                  method="POST" 
+                                  onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">
+                                    Supprimer
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">Aucune vente enregistrée</td></tr>
+                    <tr>
+                        <td colspan="6" class="py-8 text-center text-gray-500">
+                            Aucun produit pour le moment. 
+                            <a href="{{ route('admin.produits.create') }}" class="text-purple-600 hover:underline">
+                                Ajoutez-en un !
+                            </a>
+                        </td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
-    <div class="mt-6">{{ $ventes->links() }}</div>
+
+    <div class="mt-4">
+        {{ $produits->links() }}
+    </div>
 </div>
 @endsection
