@@ -8,19 +8,20 @@ use Illuminate\Http\Request;
 
 class ProduitController extends Controller
 {
-    // 1. Page d'accueil (Catalogue avec PAGINATION)
+    // Afficher la page d'accueil avec tous les produits
     public function index()
     {
-        $produits = Produit::with('categorie')->latest()->paginate(9);
-        return view('welcome', compact('produits'));
+        $produits = Produit::with('categorie')->latest()->paginate(12);
+        $categories = Categorie::all();
+        
+        return view('welcome', compact('produits', 'categories'));
     }
 
-    // 2. Page de détail d'un produit
+    // Afficher le détail d'un produit
     public function show(Produit $produit)
     {
-        $produit->load(['categorie', 'reviews.client']);
-        $reviews = $produit->reviews()->with('client')->latest()->paginate(5);
+        $produit->load('categorie', 'reviews');
         
-        return view('produits.show', compact('produit', 'reviews'));
+        return view('produits.show', compact('produit'));
     }
 }

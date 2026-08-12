@@ -9,45 +9,49 @@ use Illuminate\Support\Facades\Auth;
 
 class PanierController extends Controller
 {
-    // Ajouter un produit au panier
-    public function ajouter(Request $request, Produit $produit)
+    // Afficher le panier
+    public function index()
     {
         $client = Auth::user()->client;
+        $paniers = Panier::with('produit')->where('client_id', $client->id)->get();
+        
+        $total = $paniers->sum(function($item) {
+            return $item->produit->prix * $item->quantite;
+        });
+        
+        return view('panier.index', compact('paniers', 'total'));
+    }
 
-        $panierItem = Panier::where('client_id', $client->id)
-                            ->where('produit_id', $produit->id)
-                            ->first();
-
-        if ($panierItem) {
-            $panierItem->increment('quantite');
+    // Ajouter un produit au panier
+    public function ajouter(Produit $produit)
+    {
+        $client = Auth::user()->client;
+        
+        // Vérifier si le produit est déjà dans le panier
+        $panier = Panier::where('client_id', $client->id)
+                       ->where('produit_id', $produit->id)
+                       ->first();
+        
+        if ($panier) {
+            // Si déjà dans le panier, augmenter la quantité
+            $panier->increment('quantite');
         } else {
+            // Sinon, créer une nouvelle entrée
             Panier::create([
                 'client_id' => $client->id,
                 'produit_id' => $produit->id,
                 'quantite' => 1,
             ]);
         }
-
-        return redirect()->back()->with('success', $produit->nom . ' ajouté au panier ! ');
-    }
-
-    // Voir son panier
-    public function voirPanier()
-    {
-        $client = Auth::user()->client;
-        $panier = Panier::where('client_id', $client->id)->with('produit')->get();
         
-        $total = $panier->sum(function($item) {
-            return $item->produit->prix * $item->quantite;
-        });
-
-        return view('panier.index', compact('panier', 'total'));
+        return redirect()->route('panier.voir')->with('success', 'Produit ajouté au panier ! 🛒');
     }
 
-    // Supprimer un article
-    public function supprimer($id)
+    // Supprimer un produit du panier
+    public function supprimer(Panier $item)
     {
-        Panier::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Article retiré du panier.');
+        $item->delete();
+        
+        return redirect()->route('panier.voir')->with('success', 'Produit retiré du panier ! 🗑️');
     }
 }

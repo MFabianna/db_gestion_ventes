@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
             'role' => 'client',
         ]);
 
-        Client::create([
+        // On sauvegarde le client créé dans une variable $client
+        $client = Client::create([
             'user_id' => $userClient->id,
             'nom' => 'Rakoto',
             'prenom' => 'Marie',
@@ -71,9 +72,11 @@ class DatabaseSeeder extends Seeder
 
         // 5. Créer une Vente de test
         $premierProduit = Produit::first();
+        
+        // On utilise $client->id ici (la variable qu'on a créée plus haut)
         $vente = Vente::create([
             'code_vente' => 'V-' . now()->format('d-m-Y') . '-001',
-            'client_id' => $userClient->client->id,
+            'client_id' => $client->id, 
             'montant' => $premierProduit->prix * 2,
             'date_vente' => now(),
             'statut' => 'payé',
