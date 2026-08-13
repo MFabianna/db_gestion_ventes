@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -42,4 +42,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Relation : Un User a un Client (one-to-one)
+     */
+    public function client()
+    {
+        return $this->hasOne(Client::class);
+    }
+
+    /**
+     * Relation : Un User a plusieurs Paniers via Client (hasManyThrough)
+     */
+    public function paniers()
+    {
+        return $this->hasManyThrough(
+            Panier::class,
+            Client::class,
+            'user_id',      // Clé étrangère dans la table clients
+            'client_id',    // Clé étrangère dans la table paniers
+            'id',           // Clé primaire dans la table users
+            'id'            // Clé primaire dans la table clients
+        );
+    }
 }

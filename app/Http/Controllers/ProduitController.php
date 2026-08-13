@@ -43,7 +43,7 @@ class ProduitController extends Controller
         $categories = Categorie::all();
 
         // On retourne la vue 
-        return view('accueil', compact('produits', 'categories'));
+        return view('welcome', compact('produits', 'categories'));
     }
 
     /**
